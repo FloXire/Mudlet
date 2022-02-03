@@ -1,0 +1,89 @@
+name: Update plural american english translations
+
+on:
+  schedule:
+    - cron: 0 0 * * FRI
+
+  workflow_dispatch:
+
+env:
+  PLURAL_TRANSLATIONS_FILE: ./translations/translated/mudlet_en_US.ts
+
+jobs:
+  # verify_github_contexts:
+  #   name: verify github contexts
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Verify Github Contexts
+  #       run: |
+  #         echo "github.action ${{github.action}}" # string  現在実行中のアクションの名前。 GitHubは、現在のステップがスクリプトを実行する際に、特殊なキャラクターを削除するか、runという名前を使います。 同じジョブの中で同じアクションを複数回使う場合、名前には順番に番号が加えられます。 たとえば、実行する最初のスクリプトの名前はrun1で、2番目のスクリプトの名前はrun2というようになります。 同様に、actions/checkoutの2回目の呼び出しはactionscheckout2となります。
+  #         echo "github.action_path ${{github.action_path}}" # string    アクションが置かれているパス。 このパスを使用して、アクションと同じリポジトリにあるファイルに簡単にアクセスできます。 This attribute is only supported in composite actions.
+  #         echo "github.actor ${{github.actor}}" # string    ワークフローの実行を開始したユーザのログイン。
+  #         echo "github.base_ref ${{github.base_ref}}" # string  ワークフローの実行における base_ref またはPull Requestのターゲットブランチ。 このプロパティは、ワークフローの実行をトリガーするイベントが pull_request または pull_request_target のいずれかである場合にのみ使用できます。
+  #         echo "github.event ${{github.event}}" # オブジェクト    webhook ペイロードの完全なイベント。 詳しい情報については、「ワークフローをトリガーするイベント」を参照してください。 このコンテキストを使用して、イベントの個々のプロパティにアクセスできます。
+  #         echo "github.event_name ${{github.event_name}}" # string  ワークフローの実行をトリガーしたイベントの名前。
+  #         echo "github.event_path ${{github.event_path}}" # string  ランナー上の完全なイベントwebhookペイロードへのパス。
+  #         echo "github.head_ref ${{github.head_ref}}" # string  ワークフローの実行における head_ref またはPull Requestのソースブランチ。 このプロパティは、ワークフローの実行をトリガーするイベントが pull_request または pull_request_target のいずれかである場合にのみ使用できます。
+  #         echo "github.job ${{github.job}}" # string    現在のジョブのjob_id。
+  #         echo "github.ref ${{github.ref}}" # string    ワークフローの実行をトリガーしたブランチまたはタグ ref。 For branches this is the format refs/heads/<branch_name>, and for tags it is refs/tags/<tag_name>.
+  #         echo "github.repository ${{github.repository}}" # string  所有者およびリポジトリの名前。 Codertocat/Hello-Worldなどです。
+  #         echo "github.repository_owner ${{github.repository_owner}}" # string  リポジトリのオーナーの名前。 たとえばCodertocat。
+  #         echo "github.run_id ${{github.run_id}}" # string  リポジトリ内でユニークな各実行に対する番号。 この番号は、ワークフローの実行をやり直しても変化しません、
+  #         echo "github.run_number ${{github.run_number}}" # string  リポジトリ内の特定のワークフローの各実行に対するユニークな番号。 この番号は、ワークフローの最初の実行時に1で始まり、新たな実行ごとにインクリメントされます。 この番号は、ワークフローの実行をやり直しても変化しません、
+  #         echo "github.sha ${{github.sha}}" # string    ワークフローの実行をトリガーしたコミット SHA。
+  #         echo "github.token ${{github.token}}" # string    リポジトリにインストールされたGitHub Appの代わりに認証するためのトークン。 これは機能的にGITHUB_TOKENシークレットに等価です。 詳しい情報については「GITHUB_TOKENでの認証」を参照してください。
+  #         echo "github.workflow ${{github.workflow}}" # string  ワークフローの名前。 ワークフローファイルで name を指定していない場合、このプロパティの値は、リポジトリ内にあるワークフローファイルのフルパスになります。
+  #         echo "github.workspace ${{github.workspace}}" # string    checkoutアクションを使う際の、ステップにとってのデフォルトのワーキングディレクトリであり、リポジトリのデフォルトの場所です。
+
+  update_and_commit_plural_english:
+    runs-on: ubuntu-latest
+    # if: ${{ github.repository_owner == 'Mudlet' }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: development
+        submodules: true
+        fetch-depth: 0
+
+    - name: update plural english forms
+      uses: Mudlet/lupdate-action@master
+      with:
+        args: -locations absolute -pluralonly ./src ./3rdparty/dblsqd/dblsqd ./3rdparty/edbee-lib/edbee-lib -ts ${PLURAL_TRANSLATIONS_FILE}
+
+    - name: count the number of unfinished translations
+      id: count_unfinished
+      uses: Mudlet/xmlstarlet-action@master
+      with:
+        args: sel -t -v count(.//translation[@type='unfinished']) ${PLURAL_TRANSLATIONS_FILE}
+
+    - name: commit and create draft pull request
+      if: steps.count_unfinished.outputs.xmlstarlet_result > 0
+      uses: peter-evans/create-pull-request@v3.12.1
+      with:
+        # token: ${{ secrets.GH_PAT_UPDATE_3RDPARTY }}
+        path: ${PLURAL_TRANSLATIONS_FILE}
+        branch: update-en-us-plural-${{ github.sha }}
+        commit-message: test commit
+        title: test pr
+        body: test body
+        draft: true
+
+    # todo: create issue referencing the PR using
+
+    # - name: send in a pull request
+    #   uses: gr2m/create-or-update-pull-request-action@v1.x
+    #   if: steps.getdiff.outputs.lines_changed > 0
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GH_PAT_UPDATE_3RDPARTY }}
+    #   with:
+    #     title: "Infrastructure: Update text for translation in Crowdin"
+    #     body: |
+    #       #### Brief overview of PR changes/additions
+    #       :crown: An automated PR to make new text available for translation in Crowdin from ${{ github.ref }} (${{ github.sha }}).
+    #       #### Motivation for adding to Mudlet
+    #       So translators can translate the new text before the upcoming release.
+    #     branch: update-texts-for-translators-${{ github.sha }}
+    #     path: translations/
+    #     commit-message: (autocommit) Updated text for plural english translations
+    #     author: "mudlet-machine-account <mudlet-machine-account@users.noreply.github.com>"
