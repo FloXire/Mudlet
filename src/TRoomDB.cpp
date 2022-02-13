@@ -721,7 +721,7 @@ void TRoomDB::auditRooms(QHash<int, int>& roomRemapping, QHash<int, int>& areaRe
     // bit of the task being addressed here is fixing
     if (!missingAreasNeeded.isEmpty()) {
         if (mudlet::self()->showMapAuditErrors()) {
-            QString alertMsg = tr("[ ALERT ] - %n area(s) detected as missing in map: adding it/them in.\n"
+            QString alertMsg = tr("[ ALERT ] - %n area(s) detectedd as missing in map: adding it/them in.\n"
                                   " Look for further messages related to the rooms that are supposed\n"
                                   " to be in this/these area(s)...",
                                   "Making use of %n to allow quantity dependent message form 8-) !",
