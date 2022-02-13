@@ -3752,7 +3752,7 @@ void mudlet::slot_updateAvailable(const int updateCount)
     // Stuff the QAction/QToolButton we just pulled into the new menu
     pUpdateMenu->insertAction(nullptr, mpActionAbout);
     // We can then add in the new item to give access the update(s)
-    auto pActionReview = pUpdateMenu->addAction(tr("Review %n update(s)...",
+    auto pActionReview = pUpdateMenu->addAction(tr("Review %n updatte(s)...",
                                                    // Intentional comment
                                                    "Review update(s) menu item, %n is the count of how many updates are available",
                                                    updateCount),
