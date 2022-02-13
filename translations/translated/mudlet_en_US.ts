@@ -41,6 +41,17 @@
 <context>
     <name>TRoomDB</name>
     <message numerus="yes">
+        <location filename="../../src/TRoomDB.cpp" line="724"/>
+        <source>[ ALERT ] - %n area(s) detectedd as missing in map: adding it/them in.
+ Look for further messages related to the rooms that are supposed
+ to be in this/these area(s)...</source>
+        <comment>Making use of %n to allow quantity dependent message form 8-) !</comment>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
         <location filename="../../src/TRoomDB.cpp" line="740"/>
         <source>[ INFO ]  - The missing area(s) are now called:
 (ID) ==&gt; &quot;name&quot;</source>
@@ -54,12 +65,11 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../src/TRoomDB.cpp" line="724"/>
         <source>[ ALERT ] - %n area(s) detected as missing in map: adding it/them in.
  Look for further messages related to the rooms that are supposed
  to be in this/these area(s)...</source>
         <comment>Making use of %n to allow quantity dependent message form 8-) !</comment>
-        <translation>
+        <translation type="vanished">
             <numerusform>[ ALERT ] - an area detected as missing in map: adding it in.
  Look for further messages related to the rooms that are supposed
  to be in this area...</numerusform>
@@ -125,7 +135,7 @@
 <context>
     <name>dlgRoomSymbol</name>
     <message numerus="yes">
-        <location filename="../../src/dlgRoomSymbol.cpp" line="77"/>
+        <location filename="../../src/dlgRoomSymbol.cpp" line="80"/>
         <source>The only used symbol is &quot;%1&quot; in one or
 more of the selected %n room(s), delete this to
 clear it from all selected rooms or replace
@@ -143,7 +153,7 @@ with a new symbol to use for all the rooms:</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../src/dlgRoomSymbol.cpp" line="97"/>
+        <location filename="../../src/dlgRoomSymbol.cpp" line="100"/>
         <source>Choose:
  • an existing symbol from the list below (sorted by most commonly used first)
  • enter one or more graphemes (&quot;visible characters&quot;) as a new symbol
@@ -167,7 +177,7 @@ for all of the %n selected rooms:</numerusform>
 <context>
     <name>mudlet</name>
     <message numerus="yes">
-        <location filename="../../src/mudlet.cpp" line="3744"/>
+        <location filename="../../src/mudlet.cpp" line="3737"/>
         <source>&lt;p&gt;About Mudlet&lt;/p&gt;&lt;p&gt;&lt;i&gt;%n update(s) is/are now available!&lt;/i&gt;&lt;p&gt;</source>
         <comment>This is the tooltip text for the &apos;About&apos; Mudlet main toolbar button when it has been changed by adding a menu which now contains the original &apos;About Mudlet&apos; action and a new one to access the manual update process</comment>
         <translation>
@@ -176,17 +186,25 @@ for all of the %n selected rooms:</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../src/mudlet.cpp" line="3762"/>
+        <location filename="../../src/mudlet.cpp" line="3755"/>
+        <source>Review %n updatte(s)...</source>
+        <comment>Review update(s) menu item, %n is the count of how many updates are available</comment>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
         <source>Review %n update(s)...</source>
         <comment>Review update(s) menu item, %n is the count of how many updates are available</comment>
         <translatorcomment>Could do with the insertion of &quot;the&quot; as a second word!</translatorcomment>
-        <translation>
+        <translation type="vanished">
             <numerusform>Review the update...</numerusform>
             <numerusform>Review the %n updates...</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../src/mudlet.cpp" line="3767"/>
+        <location filename="../../src/mudlet.cpp" line="3760"/>
         <source>Review the update(s) available...</source>
         <comment>Tool-tip for review update(s) menu item, given that the count of how many updates are available is already shown in the menu, the %n parameter that is that number need not be used here</comment>
         <translation>
